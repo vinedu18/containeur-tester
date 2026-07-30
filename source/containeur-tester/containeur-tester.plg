@@ -2,11 +2,11 @@
 <!DOCTYPE PLUGIN [
   <!ENTITY name      "containeur-tester">
   <!ENTITY author    "Containeur Tester Team">
-  <!ENTITY version   "1.0.3">
+  <!ENTITY version   "1.0.4">
   <!ENTITY launch    "Settings/containeur-tester">
   <!ENTITY plugin    "/boot/config/plugins/&name;">
   <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
-  <!ENTITY gitURL    "https://raw.githubusercontent.com/vince/containeur-tester/main/source/containeur-tester">
+  <!ENTITY gitURL    "https://raw.githubusercontent.com/vinedu18/containeur-tester/9f6dcb6f653c0bc6f4203f3607b6cacd8efec6fd/source/containeur-tester">
   <!ENTITY pluginURL "&gitURL;/containeur-tester.plg">
 ]>
 
@@ -134,31 +134,31 @@ echo "Containeur Tester: Removal complete!"
         ]]>
     </REMOVE>
 
-    <FILE name="/usr/local/emhttp/plugins/containeur-tester/default.cfg">
-        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/default.cfg"/>
+    <FILE Name="/usr/local/emhttp/plugins/containeur-tester/default.cfg">
+      <URL>&gitURL;/usr/local/emhttp/plugins/containeur-tester/default.cfg</URL>
     </FILE>
 
-    <FILE name="/usr/local/emhttp/plugins/containeur-tester/scripts/test-container.sh">
-        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/scripts/test-container.sh"/>
+    <FILE Name="/usr/local/emhttp/plugins/containeur-tester/scripts/test-container.sh">
+      <URL>&gitURL;/usr/local/emhttp/plugins/containeur-tester/scripts/test-container.sh</URL>
     </FILE>
 
-    <FILE name="/usr/local/emhttp/plugins/containeur-tester/include/containeur-tester.php">
-        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/include/containeur-tester.php"/>
+    <FILE Name="/usr/local/emhttp/plugins/containeur-tester/include/containeur-tester.php">
+      <URL>&gitURL;/usr/local/emhttp/plugins/containeur-tester/include/containeur-tester.php</URL>
     </FILE>
 
-    <FILE name="/usr/local/emhttp/plugins/containeur-tester/javascript/containeur-tester.js">
-        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/javascript/containeur-tester.js"/>
+    <FILE Name="/usr/local/emhttp/plugins/containeur-tester/javascript/containeur-tester.js">
+      <URL>&gitURL;/usr/local/emhttp/plugins/containeur-tester/javascript/containeur-tester.js</URL>
     </FILE>
 
-    <FILE name="/usr/local/emhttp/plugins/containeur-tester/css/containeur-tester.css">
-        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/css/containeur-tester.css"/>
+    <FILE Name="/usr/local/emhttp/plugins/containeur-tester/css/containeur-tester.css">
+      <URL>&gitURL;/usr/local/emhttp/plugins/containeur-tester/css/containeur-tester.css</URL>
     </FILE>
 
-    <FILE name="/usr/local/emhttp/plugins/containeur-tester/containeur-tester.page">
-        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/containeur-tester.page"/>
+    <FILE Name="/usr/local/emhttp/plugins/containeur-tester/containeur-tester.page">
+      <URL>&gitURL;/usr/local/emhttp/plugins/containeur-tester/containeur-tester.page</URL>
     </FILE>
 
-    <FILE name="/usr/local/emhttp/plugins/containeur-tester/README.md">
-        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/README.md"/>
+    <FILE Name="/usr/local/emhttp/plugins/containeur-tester/README.md">
+      <URL>&gitURL;/usr/local/emhttp/plugins/containeur-tester/README.md</URL>
     </FILE>
 </PLUGIN>
