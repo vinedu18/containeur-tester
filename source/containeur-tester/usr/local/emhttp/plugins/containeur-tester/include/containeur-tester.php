@@ -713,6 +713,7 @@ function render_dashboard() {
         </div>
     </div>
     <?php
+    // Ensure the page always renders something even if JS/assets are missing.
 }
 
 /**
