@@ -2,10 +2,6 @@ Menu="Settings,Containeur Tester"
 Title="Containeur Tester"
 Icon="docker.png"
 
-<div id="ct-debug-marker" style="padding:8px;background:#1f2937;color:#fff;font-weight:bold;">
-CT_DEBUG_MARKER: containeur-tester.page loaded
-</div>
-
 <?php
 /*===============================================================================
  * Containeur Tester - Dashboard Page
