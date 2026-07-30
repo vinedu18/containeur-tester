@@ -1,31 +1,10 @@
 Menu="Settings,Containeur Tester"
 Title="Containeur Tester"
 Icon="docker.png"
+Type="php"
 
-<?php
-/*===============================================================================
- * Containeur Tester - Dashboard Page
- *==============================================================================*/
-
-// Prevent direct access
-if (!defined('EMHTTP')) {
-    exit;
-}
-
+<?
 $plugin_path = "/usr/local/emhttp/plugins/containeur-tester";
+require_once "$plugin_path/include/containeur-tester.php";
+render_dashboard();
 ?>
-
-<!-- Load CSS -->
-<link rel="stylesheet" href="<?= $plugin_path ?>/css/containeur-tester.css">
-
-<!-- Dashboard Content -->
-<div id="containeur-tester-wrapper">
-    <?php
-    // Include and render the dashboard
-    require_once "{$plugin_path}/include/containeur-tester.php";
-    render_dashboard();
-    ?>
-</div>
-
-<!-- Load JavaScript -->
-<script src="<?= $plugin_path ?>/javascript/containeur-tester.js"></script>
