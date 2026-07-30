@@ -1,10 +1,8 @@
 Menu="Settings,Containeur Tester"
 Title="Containeur Tester"
-Icon="docker.png"
-Type="php"
-
-<?
-$plugin_path = "/usr/local/emhttp/plugins/containeur-tester";
-require_once "$plugin_path/include/containeur-tester.php";
+Tag="docker"
+---
+<?php
+require_once "/usr/local/emhttp/plugins/containeur-tester/include/containeur-tester.php";
 render_dashboard();
 ?>

@@ -1,0 +1,7 @@
+Menu="Containeur Tester"
+Title="Containeur Tester"
+
+
+<?php
+include('/usr/local/emhttp/plugins/containeur-tester/include/containeur-tester.php');
+?>
