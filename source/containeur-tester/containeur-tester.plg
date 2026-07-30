@@ -1,0 +1,164 @@
+<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE PLUGIN [
+  <!ENTITY name      "containeur-tester">
+  <!ENTITY author    "Containeur Tester Team">
+  <!ENTITY version   "1.0.3">
+  <!ENTITY launch    "Settings/containeur-tester">
+  <!ENTITY plugin    "/boot/config/plugins/&name;">
+  <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
+  <!ENTITY gitURL    "https://raw.githubusercontent.com/vince/containeur-tester/main/source/containeur-tester">
+  <!ENTITY pluginURL "&gitURL;/containeur-tester.plg">
+]>
+
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.9.0" support="https://forums.unraid.net/">
+
+
+    <DESCRIPTION>
+        Safely test Docker container updates before applying them.
+        Creates canary test containers, monitors their health, and
+        updates the original container only if the test passes.
+        Features full web dashboard, automatic scheduling, and
+        detailed test history.
+    </DESCRIPTION>
+
+    <CHANGES>
+        ## [1.0.1] - 2026-07-27
+        ### Fixed
+        - Corrected page menu category to Tools
+        - Simplified/normalized PLG manifest for parser compatibility
+        - Aligned PLG header/menu launch format with NVIDIA-style plugin format
+
+        ## [1.0.0] - 2024-07-26
+        ### Added
+        - Initial release
+    </CHANGES>
+
+    <INSTALL>
+        <![CDATA[
+echo "Containeur Tester: Installing plugin..."
+
+mkdir -p /boot/config/plugins/containeur-tester/logs
+mkdir -p /boot/config/plugins/containeur-tester/state
+mkdir -p /usr/local/emhttp/plugins/containeur-tester/scripts
+mkdir -p /usr/local/emhttp/plugins/containeur-tester/include
+mkdir -p /usr/local/emhttp/plugins/containeur-tester/javascript
+mkdir -p /usr/local/emhttp/plugins/containeur-tester/css
+
+if [ ! -f /boot/config/plugins/containeur-tester/default.cfg ]; then
+  cp /usr/local/emhttp/plugins/containeur-tester/default.cfg /boot/config/plugins/containeur-tester/default.cfg
+  echo "Containeur Tester: Created default configuration"
+fi
+
+chmod +x /usr/local/emhttp/plugins/containeur-tester/scripts/*.sh 2>/dev/null || true
+
+if [ ! -f /boot/config/plugins/containeur-tester/state/containeur-tester.state ]; then
+  echo "{}" > /boot/config/plugins/containeur-tester/state/containeur-tester.state
+fi
+
+if [ ! -f /boot/config/plugins/containeur-tester/state/test-history.json ]; then
+  echo "[]" > /boot/config/plugins/containeur-tester/state/test-history.json
+fi
+
+if [ -f /boot/config/plugins/containeur-tester/default.cfg ]; then
+  source /boot/config/plugins/containeur-tester/default.cfg
+  SCHEDULE="${TEST_SCHEDULE:-0 2 * * *}"
+
+  cat > /etc/cron.d/containeur-tester << CRONEOF
+# Containeur Tester - Automatic container update testing
+${SCHEDULE} root /usr/local/emhttp/plugins/containeur-tester/scripts/test-container.sh auto-test
+CRONEOF
+
+  chmod 644 /etc/cron.d/containeur-tester
+  /etc/rc.d/rc.crond reload 2>/dev/null || true
+fi
+
+echo "Containeur Tester: Installation complete!"
+echo "Containeur Tester: Restarting WebUI (emhttp)..."
+killall emhttp 2>/dev/null || true
+/usr/local/sbin/emhttp &>/dev/null &
+        ]]>
+    </INSTALL>
+
+    <UPGRADE>
+        <![CDATA[
+echo "Containeur Tester: Upgrading plugin..."
+
+mkdir -p /boot/config/plugins/containeur-tester/logs
+mkdir -p /boot/config/plugins/containeur-tester/state
+
+chmod +x /usr/local/emhttp/plugins/containeur-tester/scripts/*.sh 2>/dev/null || true
+
+if [ ! -f /boot/config/plugins/containeur-tester/state/containeur-tester.state ]; then
+  echo "{}" > /boot/config/plugins/containeur-tester/state/containeur-tester.state
+fi
+
+if [ ! -f /boot/config/plugins/containeur-tester/state/test-history.json ]; then
+  echo "[]" > /boot/config/plugins/containeur-tester/state/test-history.json
+fi
+
+if [ -f /usr/local/emhttp/plugins/containeur-tester/default.cfg ] && [ ! -f /boot/config/plugins/containeur-tester/default.cfg ]; then
+  cp /usr/local/emhttp/plugins/containeur-tester/default.cfg /boot/config/plugins/containeur-tester/default.cfg
+fi
+
+if [ -f /boot/config/plugins/containeur-tester/default.cfg ]; then
+  source /boot/config/plugins/containeur-tester/default.cfg
+  SCHEDULE="${TEST_SCHEDULE:-0 2 * * *}"
+
+  cat > /etc/cron.d/containeur-tester << CRONEOF
+# Containeur Tester - Automatic container update testing
+${SCHEDULE} root /usr/local/emhttp/plugins/containeur-tester/scripts/test-container.sh auto-test
+CRONEOF
+
+  chmod 644 /etc/cron.d/containeur-tester
+  /etc/rc.d/rc.crond reload 2>/dev/null || true
+fi
+
+echo "Containeur Tester: Upgrade complete!"
+echo "Containeur Tester: Restarting WebUI (emhttp)..."
+killall emhttp 2>/dev/null || true
+/usr/local/sbin/emhttp &>/dev/null &
+        ]]>
+    </UPGRADE>
+
+    <REMOVE>
+        <![CDATA[
+echo "Containeur Tester: Removing plugin..."
+
+rm -f /etc/cron.d/containeur-tester
+/etc/rc.d/rc.crond reload 2>/dev/null || true
+pkill -f "test-container.sh" 2>/dev/null || true
+
+echo "Containeur Tester: Plugin files removed."
+echo "Configuration and logs are preserved at /boot/config/plugins/containeur-tester/"
+echo "Containeur Tester: Removal complete!"
+        ]]>
+    </REMOVE>
+
+    <FILE name="/usr/local/emhttp/plugins/containeur-tester/default.cfg">
+        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/default.cfg"/>
+    </FILE>
+
+    <FILE name="/usr/local/emhttp/plugins/containeur-tester/scripts/test-container.sh">
+        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/scripts/test-container.sh"/>
+    </FILE>
+
+    <FILE name="/usr/local/emhttp/plugins/containeur-tester/include/containeur-tester.php">
+        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/include/containeur-tester.php"/>
+    </FILE>
+
+    <FILE name="/usr/local/emhttp/plugins/containeur-tester/javascript/containeur-tester.js">
+        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/javascript/containeur-tester.js"/>
+    </FILE>
+
+    <FILE name="/usr/local/emhttp/plugins/containeur-tester/css/containeur-tester.css">
+        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/css/containeur-tester.css"/>
+    </FILE>
+
+    <FILE name="/usr/local/emhttp/plugins/containeur-tester/containeur-tester.page">
+        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/containeur-tester.page"/>
+    </FILE>
+
+    <FILE name="/usr/local/emhttp/plugins/containeur-tester/README.md">
+        <INCLUDE source="usr/local/emhttp/plugins/containeur-tester/README.md"/>
+    </FILE>
+</PLUGIN>
