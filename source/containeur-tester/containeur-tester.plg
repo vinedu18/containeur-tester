@@ -6,7 +6,7 @@
   <!ENTITY launch    "Settings/containeur-tester">
   <!ENTITY plugin    "/boot/config/plugins/&name;">
   <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
-  <!ENTITY gitURL    "https://raw.githubusercontent.com/vinedu18/containeur-tester/9f6dcb6f653c0bc6f4203f3607b6cacd8efec6fd/source/containeur-tester">
+  <!ENTITY gitURL    "https://raw.githubusercontent.com/vinedu18/containeur-tester/refs/heads/main/source/containeur-tester">
   <!ENTITY pluginURL "&gitURL;/containeur-tester.plg">
 ]>
 
